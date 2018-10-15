@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BrightnessVC" customModule="searchdemo" customModuleProvider="target">
             <connections>
+                <outlet property="qrImageView" destination="yKJ-Of-DrS" id="HI0-ZS-n1Z"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -30,7 +31,8 @@
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="E4F-l8-NjW">
                     <rect key="frame" x="18" y="537" width="339" height="31"/>
                     <connections>
-                        <action selector="sliderChanges:" destination="-1" eventType="valueChanged" id="09Y-gJ-dcG"/>
+                        <action selector="sliderContrastValueChanged:" destination="-1" eventType="valueChanged" id="AAw-uq-Bcf"/>
+                        <action selector="sliderValueChanged:" destination="-1" eventType="valueChanged" id="uO3-o0-zCC"/>
                     </connections>
                 </slider>
             </subviews>

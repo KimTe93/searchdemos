@@ -16,9 +16,16 @@ class ViewController: UIViewController {
     }
 
     
+    @IBAction func calendarPressed(_ sender: UIButton) {
+        let vc = CalendarVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
     
     @IBAction func sharePressed(_ sender: UIButton) {
-       let activityVC =  UIActivityViewController(activityItems: ["www.weeswares.com"], applicationActivities: nil)
+        let shareContent = "Let me share you something ..." + "\n" + "www.weeswares.com"
+        print(shareContent)
+       let activityVC =  UIActivityViewController(activityItems: [shareContent], applicationActivities: nil)
         self.navigationController?.present(activityVC, animated: true, completion: nil)
     }
     
