@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BrightnessVC" customModule="searchdemo" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="qcode" translatesAutoresizingMaskIntoConstraints="NO" id="yKJ-Of-DrS">
+                    <rect key="frame" x="87.5" y="233.5" width="200" height="200"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="200" id="2qw-UE-kFK"/>
+                        <constraint firstAttribute="height" constant="200" id="Q33-eF-ffv"/>
+                    </constraints>
+                </imageView>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="E4F-l8-NjW">
+                    <rect key="frame" x="18" y="537" width="339" height="31"/>
+                    <connections>
+                        <action selector="sliderChanges:" destination="-1" eventType="valueChanged" id="09Y-gJ-dcG"/>
+                    </connections>
+                </slider>
+            </subviews>
+            <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="yKJ-Of-DrS" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="15f-ZJ-1qK"/>
+                <constraint firstItem="yKJ-Of-DrS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3Gg-aD-AMx"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="E4F-l8-NjW" secondAttribute="bottom" constant="100" id="fcW-3g-nU8"/>
+                <constraint firstItem="E4F-l8-NjW" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="py1-iH-Q2q"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="E4F-l8-NjW" secondAttribute="trailing" constant="20" id="zck-TB-M31"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="qcode" width="1000" height="1000"/>
+    </resources>
+</document>
