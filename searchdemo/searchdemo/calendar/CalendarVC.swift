@@ -79,6 +79,8 @@ class CalendarVC: UIViewController {
         calendar.backgroundColor = .white
         let scopeGesture = UIPanGestureRecognizer(target: calendar, action: #selector(calendar.handleScopeGesture(_:)));
         calendar.addGestureRecognizer(scopeGesture)
+        calendar.scrollDirection = .vertical
+        calendar.pagingEnabled = false
        
         
         let dates = [
@@ -123,12 +125,13 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        if date.isAfterDate(Date().endOfDay!) {
-            calendar.deselect(date)
-        } else {
-            selectedDateArray.append(date)
-            print(selectedDateArray)
-        }
+//        if date.isAfterDate(Date().endOfDay!) {
+//            calendar.deselect(date)
+//        } else {
+//            selectedDateArray.append(date)
+//            print(selectedDateArray)
+//        }
+        selectedDateArray.append(date)
         self.configureVisibleCells()
     }
     
