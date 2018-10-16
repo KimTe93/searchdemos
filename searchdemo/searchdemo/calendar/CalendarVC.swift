@@ -11,6 +11,47 @@ import FSCalendar
 
 class CalendarVC: UIViewController {
 
+    
+    var selectedDateArray: [Date] = [] {
+        didSet {
+            // sort the array
+            selectedDateArray = calendar.selectedDates.sorted()
+            
+            switch selectedDateArray.count {
+            case 0:
+                startDate = nil
+                endDate = nil
+            case 1:
+                startDate = selectedDateArray.first
+                endDate = nil
+            case _ where selectedDateArray.count > 1:
+                startDate = selectedDateArray.first
+                endDate = selectedDateArray.last
+                
+                var nextDay = Calendar.current.date(byAdding: .day, value: 1, to: startDate!)
+                while (nextDay?.startOfDay)! <= endDate! {
+                    calendar.select(nextDay)
+                    nextDay = Calendar.current.date(byAdding: .day, value: 1, to: nextDay!)
+                    
+                }
+            default:
+                return
+            }
+        }
+    }
+    
+    var startDate: Date? {
+        didSet {
+            startDate = startDate?.startOfDay
+        }
+    }
+    
+    var endDate: Date? {
+        didSet {
+            endDate = endDate?.endOfDay
+        }
+    }
+    
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     fileprivate let formatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -82,14 +123,35 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print("did select date \(self.formatter.string(from: date))")
+        if date.isAfterDate(Date().endOfDay!) {
+            calendar.deselect(date)
+        } else {
+            selectedDateArray.append(date)
+            print(selectedDateArray)
+        }
         self.configureVisibleCells()
     }
     
-    func calendar(_ calendar: FSCalendar, didDeselect date: Date) {
-        print("did deselect date \(self.formatter.string(from: date))")
+    func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        if calendar.selectedDates.count > 2 {
+            let datesToDeselect: [Date] = calendar.selectedDates.filter{ $0 > date }
+            datesToDeselect.forEach{ calendar.deselect($0) }
+            calendar.select(date) // adds back the end date that was just deselected so it matches selectedDateArray
+        }
+        selectedDateArray = selectedDateArray.filter{ $0 < date }
+        selectedDateArray.forEach{calendar.select($0)}
         self.configureVisibleCells()
     }
+    
+//    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+//        print("did select date \(self.formatter.string(from: date))")
+//        self.configureVisibleCells()
+//    }
+//
+//    func calendar(_ calendar: FSCalendar, didDeselect date: Date) {
+//        print("did deselect date \(self.formatter.string(from: date))")
+//        self.configureVisibleCells()
+//    }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         if self.gregorian.isDateInToday(date) {
@@ -150,5 +212,39 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
         }
     }
 }
+
+
+extension Date {
+    
+    func isSameDate(_ comparisonDate: Date) -> Bool {
+        let order = Calendar.current.compare(self, to: comparisonDate, toGranularity: .day)
+        return order == .orderedSame
+    }
+    
+    func isBeforeDate(_ comparisonDate: Date) -> Bool {
+        let order = Calendar.current.compare(self, to: comparisonDate, toGranularity: .day)
+        
+        return order == .orderedAscending
+    }
+    
+    func isAfterDate(_ comparisonDate: Date) -> Bool {
+        let order = Calendar.current.compare(self, to: comparisonDate, toGranularity: .day)
+        return order == .orderedDescending
+    }
+    
+    var startOfDay: Date {
+        return Calendar.current.startOfDay(for: self)
+    }
+    
+    var endOfDay: Date? {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return Calendar.current.date(byAdding: components, to: startOfDay)
+    }
+}
+
+
+
 
 
