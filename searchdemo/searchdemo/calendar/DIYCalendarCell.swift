@@ -18,12 +18,16 @@ enum SelectionType : Int {
     case rightBorder
 }
 
+// var calendar:FSCalendar!
+
 
 class DIYCalendarCell: FSCalendarCell {
     
-    weak var circleImageView: UIImageView!
+    //weak var circleImageView: UIImageView!
+    weak var todayView:UIView!
     weak var selectionLayer: CAShapeLayer!
-    
+    weak var circleLayer:CAShapeLayer!
+   
     var selectionType: SelectionType = .none {
         didSet {
             setNeedsLayout()
@@ -36,30 +40,40 @@ class DIYCalendarCell: FSCalendarCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        let circleImageView = UIImageView(image: UIImage(named: "circle")!)
-        self.contentView.insertSubview(circleImageView, at: 0)
-        self.circleImageView = circleImageView
+        let todayView = UIView()
+        self.todayView = todayView
+        self.contentView.insertSubview(todayView, at: 0)
         
         let selectionLayer = CAShapeLayer()
-        //        let mycgColor = UIColor(red: 0, green: 143, blue: 186, alpha: 1).cgColor
-        //        selectionLayer.fillColor = mycgColor
         selectionLayer.fillColor = UIColor.orange.cgColor
         selectionLayer.actions = ["hidden": NSNull()]
         self.contentView.layer.insertSublayer(selectionLayer, below: self.titleLabel!.layer)
         self.selectionLayer = selectionLayer
         
+        let circleLayer = CAShapeLayer()
+        circleLayer.fillColor = UIColor.black.cgColor
+        circleLayer.actions = ["hidden": NSNull()]
+        self.contentView.layer.insertSublayer(circleLayer, below: self.titleLabel!.layer)
+        self.circleLayer = circleLayer
         self.shapeLayer.isHidden = true
-        
         let view = UIView(frame: self.bounds)
-        // view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
+        //view.backgroundColor = UIColor.lightGray.withAlphaComponent(0.12)
         self.backgroundView = view;
         
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.circleImageView.frame = self.contentView.bounds
+        calendar.calendarWeekdayView.backgroundColor = UIColor.red.withAlphaComponent(0)
+        calendar.calendarHeaderView.backgroundColor = UIColor.red
+        //MARK: TODAY view
+        self.todayView.frame = self.contentView.bounds
+        
+        let diameter: CGFloat = min(self.selectionLayer.frame.height, self.selectionLayer.frame.width)
+        self.circleLayer.path = UIBezierPath(ovalIn: CGRect(x: self.contentView.frame.width / 2 - diameter / 2, y: self.contentView.frame.height / 2 - diameter / 2, width: diameter, height: diameter)).cgPath
+       self.todayView.layer.addSublayer(circleLayer)
+      
+        //MARK: selection view
         self.backgroundView?.frame = self.bounds.insetBy(dx: 1, dy: 1)
         self.selectionLayer.frame = self.contentView.bounds
         

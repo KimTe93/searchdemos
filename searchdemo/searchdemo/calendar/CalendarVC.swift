@@ -11,12 +11,11 @@ import FSCalendar
 
 class CalendarVC: UIViewController {
 
-    
     var selectedDateArray: [Date] = [] {
         didSet {
             // sort the array
             selectedDateArray = calendar.selectedDates.sorted()
-            
+          
             switch selectedDateArray.count {
             case 0:
                 startDate = nil
@@ -55,9 +54,10 @@ class CalendarVC: UIViewController {
     fileprivate let gregorian = Calendar(identifier: .gregorian)
     fileprivate let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
         return formatter
     }()
+  
     
     @IBOutlet weak var calendarView: UIView!
     //@IBOutlet weak var calendar:FSCalendar!
@@ -67,25 +67,27 @@ class CalendarVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-                calendar = FSCalendar(frame: CGRect(x: 0, y:0, width: calendarView.frame.width, height: calendarView.frame.height))
-                calendarView.addSubview(calendar)
+    
+
+        calendar = FSCalendar()
+        calendar.frame = self.calendarView.bounds
+        calendarView.addSubview(calendar)
         calendar.delegate = self
         calendar.dataSource = self
         calendar.allowsMultipleSelection = true
-        
-        calendar.register(DIYCalendarCell.self, forCellReuseIdentifier: "cell")
+        calendar.pagingEnabled = false
         calendar.swipeToChooseGesture.isEnabled = true
+        calendar.register(DIYCalendarCell.self, forCellReuseIdentifier: "cell")
+        
         calendar.backgroundColor = .white
+        calendar.placeholderType = .none
         let scopeGesture = UIPanGestureRecognizer(target: calendar, action: #selector(calendar.handleScopeGesture(_:)));
         calendar.addGestureRecognizer(scopeGesture)
         calendar.scrollDirection = .vertical
-        calendar.pagingEnabled = false
-       
-        
+        calendar.calendarWeekdayView.tintColor = UIColor.orange
+        calendar.calendarHeaderView.tintColor = UIColor.orange
+        //self.calendar.appearance.caseOptions = FSCalendarCaseOptions.weekdayUsesUpperCase
         let dates = [
-            self.gregorian.date(byAdding: .day, value: -1, to: Date()),
-            Date(),
             self.gregorian.date(byAdding: .day, value: 1, to: Date())
         ]
         dates.forEach { (date) in
@@ -98,6 +100,12 @@ class CalendarVC: UIViewController {
 
 extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance{
     
+    func calendar(_ calendar: FSCalendar, titleFor date: Date) -> String? {
+        if self.gregorian.isDateInToday(date) {
+            return "Today"
+        }
+        return nil
+    }
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: "cell", for: date, at: position)
         return cell
@@ -107,8 +115,6 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
         self.configure(cell: cell, for: date, at: position)
     }
     
-    
-    
     // MARK:- FSCalendarDelegate
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
@@ -116,8 +122,18 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
         // self.eventLabel.frame.origin.y = calendar.frame.maxY + 10
     }
     
-    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)   -> Bool {
-        return monthPosition == .current
+//    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition)   -> Bool {
+//        return monthPosition == .current
+//    }
+    
+    func calendar(_ calendar: FSCalendar, shouldSelect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
+        if date .compare(Date()) == .orderedAscending {
+            
+            return false
+        }
+        else {
+            return true
+        }
     }
     
     func calendar(_ calendar: FSCalendar, shouldDeselect date: Date, at monthPosition: FSCalendarMonthPosition) -> Bool {
@@ -131,10 +147,16 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
 //            selectedDateArray.append(date)
 //            print(selectedDateArray)
 //        }
-        selectedDateArray.append(date)
-        self.configureVisibleCells()
-    }
     
+        let localDate = date.toLocalTime()
+        print("selected date - \(date)")
+        print("localDate - \(localDate)")
+      
+        selectedDateArray.append(localDate)
+        self.configureVisibleCells()
+        print(selectedDateArray)
+    }
+
     func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
         if calendar.selectedDates.count > 2 {
             let datesToDeselect: [Date] = calendar.selectedDates.filter{ $0 > date }
@@ -145,16 +167,6 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
         selectedDateArray.forEach{calendar.select($0)}
         self.configureVisibleCells()
     }
-    
-//    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-//        print("did select date \(self.formatter.string(from: date))")
-//        self.configureVisibleCells()
-//    }
-//
-//    func calendar(_ calendar: FSCalendar, didDeselect date: Date) {
-//        print("did deselect date \(self.formatter.string(from: date))")
-//        self.configureVisibleCells()
-//    }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         if self.gregorian.isDateInToday(date) {
@@ -172,15 +184,16 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
     }
     
     private func configure(cell: FSCalendarCell, for date: Date, at position: FSCalendarMonthPosition) {
-        
         let diyCell = (cell as! DIYCalendarCell)
-        // Custom today circle
-        diyCell.circleImageView.isHidden = !self.gregorian.isDateInToday(date)
-        // Configure selection layer
+        //MARK:past dates color
+        if date .compare(Date()) == .orderedAscending {
+            diyCell.titleLabel.textColor = UIColor.lightGray
+        }
+        //MARK:custom today circle
+        diyCell.todayView.isHidden = !self.gregorian.isDateInToday(date)
+        //MARK:configure selection layer
         if position == .current {
-            
             var selectionType = SelectionType.none
-            
             if calendar.selectedDates.contains(date) {
                 let previousDate = self.gregorian.date(byAdding: .day, value: -1, to: date)!
                 let nextDate = self.gregorian.date(byAdding: .day, value: 1, to: date)!
@@ -210,7 +223,7 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
             diyCell.selectionType = selectionType
             
         } else {
-            diyCell.circleImageView.isHidden = true
+            diyCell.todayView.isHidden = true
             diyCell.selectionLayer.isHidden = true
         }
     }
@@ -244,6 +257,18 @@ extension Date {
         components.day = 1
         components.second = -1
         return Calendar.current.date(byAdding: components, to: startOfDay)
+    }
+    // Convert local time to UTC (or GMT)
+    func toGlobalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = -TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
+    }
+    // Convert UTC (or GMT) to local time
+    func toLocalTime() -> Date {
+        let timezone = TimeZone.current
+        let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
+        return Date(timeInterval: seconds, since: self)
     }
 }
 
