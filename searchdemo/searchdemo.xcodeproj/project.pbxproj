@@ -13,6 +13,7 @@
 		7A12AD802174A8600024E628 /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A12AD7E2174A8600024E628 /* CalendarVC.swift */; };
 		7A12AD812174A8600024E628 /* CalendarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A12AD7F2174A8600024E628 /* CalendarVC.xib */; };
 		7A12AD832174A8F00024E628 /* DIYCalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A12AD822174A8F00024E628 /* DIYCalendarCell.swift */; };
+		7A3B737621773F8A008EE780 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3B737521773F8A008EE780 /* Utility.swift */; };
 		7A92E200217093A6004C0F95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A92E1FF217093A6004C0F95 /* AppDelegate.swift */; };
 		7A92E202217093A6004C0F95 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A92E201217093A6004C0F95 /* ViewController.swift */; };
 		7A92E205217093A6004C0F95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A92E203217093A6004C0F95 /* Main.storyboard */; };
@@ -52,6 +53,7 @@
 		7A12AD7E2174A8600024E628 /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
 		7A12AD7F2174A8600024E628 /* CalendarVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarVC.xib; sourceTree = "<group>"; };
 		7A12AD822174A8F00024E628 /* DIYCalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIYCalendarCell.swift; sourceTree = "<group>"; };
+		7A3B737521773F8A008EE780 /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		7A92E1FC217093A6004C0F95 /* searchdemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = searchdemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A92E1FF217093A6004C0F95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A92E201217093A6004C0F95 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				7A92E206217093A7004C0F95 /* Assets.xcassets */,
 				7A92E208217093A7004C0F95 /* LaunchScreen.storyboard */,
 				7A92E20B217093A7004C0F95 /* Info.plist */,
+				7A3B737521773F8A008EE780 /* Utility.swift */,
 			);
 			path = searchdemo;
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 			files = (
 				7A92E202217093A6004C0F95 /* ViewController.swift in Sources */,
 				7A023ACB217240FC00A06EAD /* BrightnessVC.swift in Sources */,
+				7A3B737621773F8A008EE780 /* Utility.swift in Sources */,
 				7A12AD802174A8600024E628 /* CalendarVC.swift in Sources */,
 				7A92E200217093A6004C0F95 /* AppDelegate.swift in Sources */,
 				7A12AD832174A8F00024E628 /* DIYCalendarCell.swift in Sources */,
