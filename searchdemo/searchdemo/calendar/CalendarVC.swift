@@ -71,16 +71,25 @@ class CalendarVC: UIViewController {
     var CURRENT_MONTH:String?
     var CURRENT_YEAR:String?
     var isShowToast:Bool = false
+    var _startDate:String!
+    var _endDate:String!
     
     private lazy var today: Date = {
         return Date()
     }()
     
+   
+    //MARK: for toast
     weak var toastLabel: UILabel!
     weak var downImage:UIImageView!
+    let dateFormatterGet = DateFormatter()
+    let dateFormatterPrint = DateFormatter()
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
+         dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+         dateFormatterPrint.dateFormat = "MMM dd"
         
         calendar = FSCalendar()
         calendar.frame = self.calendarView.bounds
@@ -98,36 +107,18 @@ class CalendarVC: UIViewController {
         calendar.today = nil // Hide the today circle
         let scopeGesture = UIPanGestureRecognizer(target: calendar, action: #selector(calendar.handleScopeGesture(_:)));
         calendar.addGestureRecognizer(scopeGesture)
-        //self.calendar.appearance.caseOptions = FSCalendarCaseOptions.weekdayUsesUpperCase
-        
-        //        let dates = [
-        //            self.gregorian.date(byAdding: .day, value: 1, to: Date())
-        //        ]
-        //        dates.forEach { (date) in
-        //            self.calendar.select(date, scrollToDate: false)
-        //        }
-        
-        // activeColor = hexStringToUIColor(hex: "#008FBA")
-        
-        
-        
+      
         self.calendar.appearance.headerTitleColor = UIColor.black
         self.calendar.appearance.weekdayTextColor = UIColor.black
-        
-        //self.calendar.calendarHeaderView.isHidden = true
-        //self.calendar.calendarHeaderView.fs_month
-        
-        
-        
+    
         setupToast()
         
     }
     
     func setupToast(){
-        //MARK: toast
+        
         let toastLabel = UILabel()
         self.toastLabel = toastLabel
-        toastLabel.frame = CGRect(x: self.view.frame.size.width/2 - 75, y:self.view.frame.size.height-100, width: 160, height: 60)
         toastLabel.textColor = UIColor.white
         toastLabel.textAlignment = .center;
         toastLabel.layer.cornerRadius = 4;
@@ -145,8 +136,8 @@ class CalendarVC: UIViewController {
         let diameter = min(toastLabel.frame.width, toastLabel.frame.height)
         downImage.frame = CGRect(x: toastLabel.center.x - diameter/2 , y: toastLabel.frame.maxY - 5, width: 20, height: 20)
         
-        self.view.addSubview(toastLabel)
-        self.view.addSubview(downImage)
+        self.calendarView.addSubview(toastLabel)
+        self.calendarView.addSubview(downImage)
         
         downImage.isHidden = false
         toastLabel.isHidden = false
@@ -225,46 +216,57 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
     
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        
-        //let currentMonth = calendar.month(of: calendar.currentPage)
-        let currentMonth = calendar.month(of: calendar.currentPage)
-        print("this is the current Month \(currentMonth)")
         let currentPage = calendar.currentPage;
         print(currentPage)
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        //        if date.isAfterDate(Date().endOfDay!) {
-        //            calendar.deselect(date)
-        //        } else {
-        //            selectedDateArray.append(date)
-        //            print(selectedDateArray)
-        //        }
-        
+     
         selectedDateArray.append(date)
         self.configureVisibleCells()
         
-        //        if isShowToast == true{
-        //            toastLabel.isHidden = false
-        //            downImage.isHidden = false
-        //            isShowToast = false
-        //        }else {
-        //            toastLabel.isHidden = true
-        //            downImage.isHidden = true
-        //            isShowToast = true
-        //        }
+        if selectedDateArray.count == 0{
+            toastLabel.isHidden = true
+            downImage.isHidden = true
+        }else{
+            let cell:FSCalendarCell = calendar.cell(for: date, at: monthPosition)!
+            let frame = cell.frame
+            let diameter = min(cell.frame.width, cell.frame.height)
+            print("cell frame: \(frame)")
+            print(localSelectedDateArray)
+            
+            toastLabel.frame = CGRect(x: frame.minX - 50, y: frame.minY - 20, width: 160.0, height: 60)
+            downImage.frame = CGRect(x: toastLabel.center.x - diameter/2 , y: toastLabel.frame.maxY - 5, width: 20, height: 20)
+         
+            if selectedDateArray.count > 1{
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                let strStartDate = formatter.string(from: selectedDateArray.first!)
+                let strEndDate = formatter.string(from: selectedDateArray.last!)
+                
+                if let date1 = dateFormatterGet.date(from: strStartDate) {
+                    _startDate = dateFormatterPrint.string(from: date1)
+                    
+                }
+                
+                if let date2 = dateFormatterGet.date(from: strEndDate) {
+                    print(dateFormatterPrint.string(from: date))
+                    _endDate = dateFormatterPrint.string(from: date2)
+                    
+                }
+                
+                let allDate = _startDate + " - " + _endDate
+                toastLabel.text = allDate
+                print("count :: \(selectedDateArray.count)")
+            }else {
+                toastLabel.text = "Select another date for date range"
+            }
+      
+            toastLabel.isHidden = false
+            downImage.isHidden = false
+        }
         
-        
-        
-        let cell:FSCalendarCell = calendar.cell(for: date, at: monthPosition)!
-        let frame = cell.frame
-        let diameter = min(cell.frame.width, cell.frame.height)
-        toastLabel.frame = CGRect(x: cell.center.x - 10, y: cell.frame.maxX, width: 160, height: 60)
-        downImage.frame = CGRect(x: toastLabel.center.x - diameter/2 , y: toastLabel.frame.maxY - 5, width: 20, height: 20)
-        
-        print("cell frame \(frame)")
-        print("toast frame \(toastLabel.frame)")
-        
+  
 
     }
     
@@ -278,7 +280,47 @@ extension CalendarVC: FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegate
         selectedDateArray.forEach{calendar.select($0)}
         self.configureVisibleCells()
         
-
+        if selectedDateArray.count == 0{
+            toastLabel.isHidden = true
+            downImage.isHidden = true
+        }else{
+            let cell:FSCalendarCell = calendar.cell(for: date, at: monthPosition)!
+            let frame = cell.frame
+            let diameter = min(cell.frame.width, cell.frame.height)
+            print("cell frame: \(frame)")
+            print(localSelectedDateArray)
+            
+            toastLabel.frame = CGRect(x: frame.minX - 50, y: frame.minY - 20, width: 160.0, height: 60)
+            downImage.frame = CGRect(x: toastLabel.center.x - diameter/2 , y: toastLabel.frame.maxY - 5, width: 20, height: 20)
+            
+            if selectedDateArray.count > 1{
+                let formatter = DateFormatter()
+                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                let strStartDate = formatter.string(from: selectedDateArray.first!)
+                let strEndDate = formatter.string(from: selectedDateArray.last!)
+                
+                if let date1 = dateFormatterGet.date(from: strStartDate) {
+                    _startDate = dateFormatterPrint.string(from: date1)
+                    
+                }
+                
+                if let date2 = dateFormatterGet.date(from: strEndDate) {
+                    print(dateFormatterPrint.string(from: date))
+                    _endDate = dateFormatterPrint.string(from: date2)
+                    
+                }
+                
+                let allDate = _startDate + " - " + _endDate
+                toastLabel.text = allDate
+                print("count :: \(selectedDateArray.count)")
+            }else {
+                toastLabel.text = "Select another date for date range"
+            }
+            
+            toastLabel.isHidden = false
+            downImage.isHidden = false
+        }
+        
     }
     
     private func configureVisibleCells() {
