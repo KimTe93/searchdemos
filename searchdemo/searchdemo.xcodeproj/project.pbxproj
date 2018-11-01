@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		66F8CF6C337F39D3478E167D /* Pods_searchdemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639281353BFB5751C65EF86B /* Pods_searchdemoTests.framework */; };
+		7A0026B4217883380029AC59 /* ColorCorrectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0026B2217883380029AC59 /* ColorCorrectionVC.swift */; };
+		7A0026B5217883380029AC59 /* ColorCorrectionVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A0026B3217883380029AC59 /* ColorCorrectionVC.xib */; };
 		7A023ACB217240FC00A06EAD /* BrightnessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A023AC9217240FC00A06EAD /* BrightnessVC.swift */; };
 		7A023ACC217240FC00A06EAD /* BrightnessVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A023ACA217240FC00A06EAD /* BrightnessVC.xib */; };
 		7A12AD802174A8600024E628 /* CalendarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A12AD7E2174A8600024E628 /* CalendarVC.swift */; };
@@ -48,6 +50,8 @@
 		444D237FC045E53626AB2B55 /* Pods-searchdemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchdemoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-searchdemoTests/Pods-searchdemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		639281353BFB5751C65EF86B /* Pods_searchdemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_searchdemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		789E8194788ED9EEEA420AC0 /* Pods-searchdemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-searchdemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-searchdemo/Pods-searchdemo.debug.xcconfig"; sourceTree = "<group>"; };
+		7A0026B2217883380029AC59 /* ColorCorrectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCorrectionVC.swift; sourceTree = "<group>"; };
+		7A0026B3217883380029AC59 /* ColorCorrectionVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ColorCorrectionVC.xib; sourceTree = "<group>"; };
 		7A023AC9217240FC00A06EAD /* BrightnessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrightnessVC.swift; sourceTree = "<group>"; };
 		7A023ACA217240FC00A06EAD /* BrightnessVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BrightnessVC.xib; sourceTree = "<group>"; };
 		7A12AD7E2174A8600024E628 /* CalendarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarVC.swift; sourceTree = "<group>"; };
@@ -124,6 +128,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		7A0026B1217883180029AC59 /* color-correction */ = {
+			isa = PBXGroup;
+			children = (
+				7A0026B2217883380029AC59 /* ColorCorrectionVC.swift */,
+				7A0026B3217883380029AC59 /* ColorCorrectionVC.xib */,
+			);
+			path = "color-correction";
+			sourceTree = "<group>";
+		};
 		7A023AC82172403200A06EAD /* brightness */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +181,7 @@
 		7A92E1FE217093A6004C0F95 /* searchdemo */ = {
 			isa = PBXGroup;
 			children = (
+				7A0026B1217883180029AC59 /* color-correction */,
 				7A12AD7D2174A8300024E628 /* calendar */,
 				7A023AC82172403200A06EAD /* brightness */,
 				7A92E1FF217093A6004C0F95 /* AppDelegate.swift */,
@@ -307,6 +321,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A0026B5217883380029AC59 /* ColorCorrectionVC.xib in Resources */,
 				7A92E20A217093A7004C0F95 /* LaunchScreen.storyboard in Resources */,
 				7A92E207217093A7004C0F95 /* Assets.xcassets in Resources */,
 				7A92E205217093A6004C0F95 /* Main.storyboard in Resources */,
@@ -415,6 +430,7 @@
 				7A023ACB217240FC00A06EAD /* BrightnessVC.swift in Sources */,
 				7A3B737621773F8A008EE780 /* Utility.swift in Sources */,
 				7A12AD802174A8600024E628 /* CalendarVC.swift in Sources */,
+				7A0026B4217883380029AC59 /* ColorCorrectionVC.swift in Sources */,
 				7A92E200217093A6004C0F95 /* AppDelegate.swift in Sources */,
 				7A12AD832174A8F00024E628 /* DIYCalendarCell.swift in Sources */,
 			);

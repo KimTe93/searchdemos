@@ -35,6 +35,22 @@ class ViewController: UIViewController {
         
     }
     
+
+    @IBAction func goToColorCorrection(_ sender: Any) {
+        let vc = ColorCorrectionVC()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
 
 

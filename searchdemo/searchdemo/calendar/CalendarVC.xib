@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CalendarVC" customModule="searchdemo" customModuleProvider="target">
             <connections>
+                <outlet property="btnPrevious" destination="MyD-fS-Bkf" id="L14-Dd-YuO"/>
                 <outlet property="calendarView" destination="RAV-qr-plq" id="oe7-bC-5Ld"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -22,18 +23,51 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAV-qr-plq">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="120" width="375" height="300"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="300" id="bDh-J1-vFb"/>
+                    </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MyD-fS-Bkf">
+                    <rect key="frame" x="20" y="70" width="100" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="0JQ-bP-OQn"/>
+                        <constraint firstAttribute="height" constant="30" id="h6r-n8-cRZ"/>
+                    </constraints>
+                    <state key="normal" title="Previous">
+                        <color key="titleColor" red="0.66422420739999999" green="0.66424006219999998" blue="0.66423153879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="previousMonth:" destination="-1" eventType="touchUpInside" id="45D-Pg-p4M"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0fO-eY-PDe">
+                    <rect key="frame" x="255" y="70" width="100" height="30"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="HUH-wh-yc7"/>
+                        <constraint firstAttribute="width" constant="100" id="R69-Xn-Pmg"/>
+                    </constraints>
+                    <state key="normal" title="Next"/>
+                    <connections>
+                        <action selector="nextMonth:" destination="-1" eventType="touchUpInside" id="02k-3k-izE"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="RAV-qr-plq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Bgy-m6-R91"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="RAV-qr-plq" secondAttribute="bottom" id="FhG-SP-YMq"/>
+                <constraint firstItem="0fO-eY-PDe" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="GYL-Ju-6DR"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="RAV-qr-plq" secondAttribute="trailing" id="JHz-Ug-j2j"/>
                 <constraint firstItem="RAV-qr-plq" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="ZaI-oL-EwZ"/>
+                <constraint firstItem="RAV-qr-plq" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="bAZ-r9-LhX"/>
+                <constraint firstItem="MyD-fS-Bkf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="bZl-qy-aq8"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="0fO-eY-PDe" secondAttribute="trailing" constant="20" id="gqx-fV-et9"/>
+                <constraint firstItem="MyD-fS-Bkf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="nJi-Fg-5Yz"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
     </objects>
 </document>
